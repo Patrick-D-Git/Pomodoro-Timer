@@ -22,22 +22,35 @@ window.title("Pomodoro")
 window.config(padx=100, pady=50, bg=YELLOW)
 
 
+def update_canvas():
+    global seconds
+    if seconds >= 0 and countdown_running:
+        mins, secs = divmod(seconds, 60)
+        canvas.itemconfig(timer_text, text='{:02d}:{:02d}'.format(mins, secs))
+        seconds -= 1
+        canvas.after(1000, update_canvas)
+        # Schedule update_label to run again after 1000 milliseconds (1 second)
+    else:
+        canvas.itemconfig(timer_text, text='00:00')
+
+
+def reset():
+    global countdown_running
+    canvas.itemconfig(timer_text, text="00:00")
+    countdown_running = False
+
+
 def countdown(minutes):
-    seconds = minutes * 60
+    global seconds, countdown_running
+    if not countdown_running:
 
-    def update_label():
-        nonlocal seconds
-        if seconds >= 0:
-            mins, secs = divmod(seconds, 60)
-            canvas.itemconfig(timer_text, text='{:02d}:{:02d}'.format(mins, secs))
-            seconds -= 1
-            timer_label.after(1000, update_label)
-            # Schedule update_label to run again after 1000 milliseconds (1 second)
-        else:
-            canvas.itemconfig(timer_text, text='00:00')
+        seconds = minutes * 60
+        countdown_running = True
+        update_canvas()
 
-    update_label()
 
+countdown_running = False
+seconds = 0
 
 tomato_img = PhotoImage(file="tomato.png")
 canvas = Canvas(width=200, height=224, bg=YELLOW, highlightthickness=0)
@@ -51,10 +64,10 @@ timer_label.grid(row=0, column=1)
 check_label = Label(text="✔", bg=YELLOW, fg=GREEN)
 check_label.grid(row=3, column=1)
 
-start_btn = Button(text="Start", highlightbackground=YELLOW, command=lambda: countdown(25))
+start_btn = Button(text="Start", highlightbackground=YELLOW, command=lambda: countdown(WORK_MIN))
 start_btn.grid(row=2, column=0)
 
-reset_btn = Button(text="Reset", highlightbackground=YELLOW)
+reset_btn = Button(text="Reset", highlightbackground=YELLOW, command=reset)
 reset_btn.grid(row=2, column=2)
 
 
