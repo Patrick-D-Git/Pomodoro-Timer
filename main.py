@@ -55,6 +55,7 @@ def reset():
     print(phase, countdown_running)
     canvas.itemconfig(timer_text, text="00:00")
     check_label.config(text="")
+    timer_label.config(text="TIMER")
 
 
 def countdown(minutes):
@@ -82,9 +83,11 @@ def pomodoro_phase():
         elif phase % 2 == 0:
             checkmarks += "✔"
             check_label.config(text=checkmarks)
+            timer_label.config(text="BREAK")
             countdown(SHORT_BREAK_MIN)
 
         else:
+            timer_label.config(text="WORK")
             countdown(WORK_MIN)
 
 
