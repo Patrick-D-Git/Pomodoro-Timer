@@ -51,7 +51,6 @@ def reset():
     countdown_running = False
     reset_counter = True
     phase = 1
-    seconds = -1
     print(phase, countdown_running)
     canvas.itemconfig(timer_text, text="00:00")
     check_label.config(text="")
