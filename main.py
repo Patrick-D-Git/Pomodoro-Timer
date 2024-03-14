@@ -27,6 +27,7 @@ window.config(padx=100, pady=50, bg=YELLOW)
 
 
 def update_canvas():
+    """Does the counting and displays the time"""
     global seconds, phase, countdown_running, reset_counter
     if seconds >= 0 and countdown_running:
         mins, secs = divmod(seconds, 60)
@@ -45,6 +46,7 @@ def update_canvas():
 
 
 def reset():
+    """Resets the Timer and checkmark"""
     global countdown_running, phase, seconds, reset_counter
     countdown_running = False
     reset_counter = True
@@ -56,6 +58,7 @@ def reset():
 
 
 def countdown(minutes):
+    """converts minutes into seconds and triggers the countdown"""
     global seconds, countdown_running
     if not countdown_running:
 
@@ -65,6 +68,7 @@ def countdown(minutes):
 
 
 def pomodoro_phase():
+    """Checks what phase the pomodoro timer is in."""
     global phase, checkmarks
 
     if not countdown_running:
@@ -85,6 +89,7 @@ def pomodoro_phase():
 
 
 def on_exit():
+    """Closes the application"""
     window.destroy()
 
 
